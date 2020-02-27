@@ -48,14 +48,13 @@ extension Operator {
     
     public static let defaultPowerAssociativity: Associativity = {
         
-        //determine what associativity NSPredicate/NSExpression is using
-        //mathematically, it should be Right associative, but it's usually parsed as Left associative
-        //rdar://problem/8692313
-        
         #if os(Linux)
         return .right
         
         #else
+        //determine what associativity NSPredicate/NSExpression is using
+        //mathematically, it should be Right associative, but it's usually parsed as Left associative
+        //rdar://problem/8692313
         
         let expression = NSExpression(format: "2 ** 3 ** 2")
         let result = expression.expressionValue(with: nil, context: nil) as? NSNumber
