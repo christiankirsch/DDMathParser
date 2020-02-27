@@ -342,10 +342,11 @@ class TokenResolverTests: XCTestCase {
         TestToken(tokens[0], kind: .number(1.23), string: "1,23")
     }
     
-    // Due to a bug in the NumberFormatter in Swift on Linux, this test will crash
-    // The NumberFormatter recognizes 1,2, as a number and also 5,6,7,8,9). This leads to only 9 tokens instead of 12, accessing token[9] crashes with Index out of range
-    #if !os(Linux)
     func testLocalizedNumbers() {
+        // Due to a bug in the NumberFormatter in Swift on Linux, this test will crash
+        // The NumberFormatter recognizes 1,2, as a number and also 5,6,7,8,9). This leads to only 9 tokens instead of 12, accessing token[9] crashes with Index out of range
+        #if !os(Linux)
+        
         var c = Configuration.default
         c.locale = Locale(identifier: "fr_FR")
         guard let tokens = XCTAssertNoThrows(try TokenResolver(string: "sum(1,2, 34, 5,6,7,8,9)", configuration: c).resolve()) else { return }
@@ -365,8 +366,13 @@ class TokenResolverTests: XCTestCase {
         TestToken(tokens[9], kind: .operator(comma), string: ",")
         TestToken(tokens[10], kind: .number(9), string: "9")
         TestToken(tokens[11], kind: .operator(Operator(builtInOperator: .parenthesisClose)), string: ")")
+        
+        #else
+        #warning("Test is not working on Linux currently")
+        
+        #endif
     }
-    #endif
+    
         
     func testLocalizedNumberWithoutLeadingZero() throws {
         var c = Configuration.default
