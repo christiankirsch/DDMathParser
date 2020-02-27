@@ -1,7 +1,2 @@
-import XCTest
-
-import MathParserTests
-
-var tests = [XCTestCaseEntry]()
-tests += MathParserTests.allTests()
-XCTMain(tests)
+// LinuxMain.swift
+fatalError("Please run tests with `swift test --enable-test-discovery`.")
