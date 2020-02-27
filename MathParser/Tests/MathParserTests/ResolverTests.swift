@@ -342,6 +342,7 @@ class TokenResolverTests: XCTestCase {
         TestToken(tokens[0], kind: .number(1.23), string: "1,23")
     }
     
+    
     func testLocalizedNumbers() {
         var c = Configuration.default
         c.locale = Locale(identifier: "fr_FR")
@@ -377,7 +378,7 @@ class TokenResolverTests: XCTestCase {
         let locales = Locale.availableIdentifiers.map { Locale(identifier: $0) }
         
         for locale in locales {
-            let n = arc4random()
+            let n = UInt.random(in: UInt.min...UInt.max)
             let f = NumberFormatter()
             f.numberStyle = .decimal
             f.usesGroupingSeparator = false
